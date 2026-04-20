@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动配置步骤 - 后台管理系统</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2b7fff;
+            /* 匹配图中的蓝色 */
+            --primary-hover: #1e5fcb;
+            --primary-light: #f0f7ff;
+            --text-main: #333333;
+            --text-secondary: #666666;
+            --text-muted: #999999;
+            --bg-page: #f5f7fa;
+            --bg-card: #ffffff;
+            --border-color: #e8e8e8;
+            --step-inactive-color: #999a9e;
+            --transition-speed: 0.2s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Microsoft YaHei", sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        .config-card {
+            width: 100%;
+            height: 100%;
+            background: var(--bg-card);
+            display: flex;
+            overflow: hidden;
+        }
+
+        /* 侧边栏 */
+        .sidebar {
+            width: 260px;
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+        }
+
+        .sidebar-title {
+            padding: 30px 24px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .steps-nav {
+            list-style: none;
+            padding: 10px 0;
+            flex-grow: 1;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 24px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+            position: relative;
+        }
+
+        .step-item:hover {
+            background-color: #fafafa;
+        }
+
+        .step-item.active {
+            background-color: var(--primary-light);
+        }
+
+        /* 蓝色指示条 */
+        .step-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background-color: var(--primary-color);
+        }
+
+        .step-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--step-inactive-color);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            margin-right: 16px;
+            flex-shrink: 0;
+            transition: background-color var(--transition-speed);
+        }
+
+        .step-item.active .step-icon {
+            background-color: var(--primary-color);
+        }
+
+        .step-label {
+            font-size: 20px;
+            color: var(--text-secondary);
+            transition: color var(--transition-speed);
+            letter-spacing: 0.5px;
+        }
+
+        .step-item.active .step-label {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* 内容区 */
+        .main-container {
+            flex-grow: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .content-pane {
+            display: none;
+            height: 100%;
+        }
+
+        .content-pane.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pane-title {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 40px;
+            color: var(--text-main);
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--primary-light);
+        }
+
+        /* 表单样式 */
+        .form-row {
+            margin-bottom: 30px;
+            max-width: 600px;
+        }
+
+        .form-row label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        /* 底部导航 */
+        .navigation-footer {
+            margin-top: auto;
+            padding-top: 40px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn-prev {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .btn-prev:hover {
+            background-color: #f9f9f9;
+        }
+
+        .btn-next {
+            background-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(43, 127, 255, 0.3);
+        }
+
+        .btn-next:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        /* 步骤 6, 7, 8 的空白状态样式 */
+        .blank-page-notice {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        /* 表格样式 */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            /* 移除 overflow: hidden 以防止 Tooltip 被遮擋 */
+            background: #fff;
+        }
+
+        .data-table th {
+            background-color: #f9fafb;
+            padding: 18px 24px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 18px 24px;
+            font-size: 15px;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-table tr:hover {
+            background-color: #fcfcfc;
+        }
+
+        /* 步驟 7 輸入框特別樣式 */
+        .percentage-input {
+            width: 80px;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            text-align: right;
+            transition: border-color 0.2s;
+        }
+
+        .percentage-input:focus {
+            border-color: var(--primary-color);
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* 卡片佈局樣式 (用於步驟 6) */
+        .card-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .setting-card {
+            flex: 1;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            /* 移除 overflow: hidden 以防止 Tooltip 被遮擋 */
+        }
+
+        .setting-card-title {
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .setting-card-title::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+            margin-right: 12px;
+        }
+
+        .info-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            background-color: #f9b572; /* 橘色資訊圖示 */
+            color: #fff;
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: bold;
+            margin-left: 8px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        /* 提示框主體 */
+        .info-icon:hover::after {
+            content: attr(data-tip);
+            position: absolute;
+            bottom: 130%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            background: #333333;
+            color: #ffffff;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: normal;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            pointer-events: none;
+            z-index: 1000;
+            animation: fadeInTooltip 0.2s ease-in-out;
+        }
+
+        /* 提示框小箭頭 */
+        .info-icon:hover::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #333333;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fadeInTooltip 0.2s ease-in-out;
+        }
+
+        @keyframes fadeInTooltip {
+            from { opacity: 0; transform: translate(-50%, 5px); }
+            to { opacity: 1; transform: translate(-50%, 0); }
+        }
+
+        /* 單選按鈕樣式 */
+        .radio-group {
+            display: flex;
+            gap: 30px;
+        }
+
+        .radio-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 15px;
+            color: var(--text-main);
+        }
+
+        .radio-label input[type="radio"] {
+            display: none;
+        }
+
+        .radio-custom {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #ccc;
+            border-radius: 50%;
+            margin-right: 10px;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-custom {
+            border-color: var(--primary-color);
+        }
+
+        .radio-label input[type="radio"]:checked + .radio-custom::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .radio-label input[type="radio"]:checked ~ .radio-text {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        /* 特殊輸入框 */
+        .day-input {
+            width: 80px;
+            padding: 10px 14px;
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .day-input:focus {
+            border-color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        .day-input:disabled {
+            background-color: #f1f3f5;
+            color: #adb5bd;
+            cursor: not-allowed;
+            border-color: #e9ecef;
+        }
+
+        .input-suffix-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 15px;
+            color: var(--text-secondary);
+        }
+        /* 提示框 */
+        .alert-box {
+            background-color: #f0f7ff;
+            color: #4b89ff;
+            padding: 14px 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            margin-bottom: 24px;
+            font-weight: 500;
+        }
+
+        /* 切换开关 */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #e4e4e4;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        .toggle-switch input:checked + .toggle-slider:before {
+            transform: translateX(20px);
+        }
+        
+        /* 複雜表格 (多行表頭) */
+        .complex-table {
+            border-spacing: 0;
+            width: 100%;
+        }
+        .complex-table th, .complex-table td {
+            text-align: center;
+            border-right: 1px solid var(--border-color);
+            padding: 14px 8px;
+        }
+        .complex-table th:last-child, .complex-table td:last-child {
+            border-right: none;
+        }
+        .complex-table th {
+            font-size: 14px;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+        .complex-table input.day-input {
+            width: 100%;
+            min-width: 60px;
+            text-align: left;
+            padding: 10px 14px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="config-card">
+        <!-- 侧边栏：步骤列表 -->
+        <aside class="sidebar">
+            <div class="sidebar-title">活动配置步骤</div>
+            <nav>
+                <ul class="steps-nav" id="stepsNav">
+                    <li class="step-item active" data-id="1">
+                        <div class="step-icon">1</div>
+                        <div class="step-label">活动模板设置</div>
+                    </li>
+                    <li class="step-item" data-id="2">
+                        <div class="step-icon">2</div>
+                        <div class="step-label">活动图片</div>
+                    </li>
+                    <li class="step-item" data-id="3">
+                        <div class="step-icon">3</div>
+                        <div class="step-label">参与对象与名单</div>
+                    </li>
+                    <li class="step-item" data-id="4">
+                        <div class="step-icon">4</div>
+                        <div class="step-label">活动条件</div>
+                    </li>
+                    <li class="step-item" data-id="5">
+                        <div class="step-icon">5</div>
+                        <div class="step-label">风控设定</div>
+                    </li>
+                    <li class="step-item" data-id="6">
+                        <div class="step-icon">6</div>
+                        <div class="step-label">领取条件</div>
+                    </li>
+                    <li class="step-item" data-id="7">
+                        <div class="step-icon">7</div>
+                        <div class="step-label">提款条件</div>
+                    </li>
+                    <li class="step-item" data-id="8">
+                        <div class="step-icon">8</div>
+                        <div class="step-label">送出预览</div>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 内容区域 -->
+        <main class="main-container">
+
+            <!-- 步骤 1 -->
+            <div class="content-pane active" id="pane-1">
+                <h2 class="pane-title">1 活动模板设置</h2>
+                <div class="form-row">
+                    <label>活动名称</label>
+                    <input type="text" class="form-input" placeholder="输入活动名称...">
+                </div>
+                <div class="form-row">
+                    <label>显示模板</label>
+                    <select class="form-input">
+                        <option>标准存款模板</option>
+                        <option>节日限定模板</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 步骤 2 -->
+            <div class="content-pane" id="pane-2">
+                <h2 class="pane-title">2 活动图片</h2>
+                <div class="form-row">
+                    <label>Banner 图片上传</label>
+                    <div
+                        style="height: 150px; background: #fafafa; border: 2px dashed #eee; display:flex; align-items:center; justify-content:center; border-radius:10px; color:#aaa;">
+                        拖拽图片至此处 (PC/H5)
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤 3 -->
+            <div class="content-pane" id="pane-3">
+                <h2 class="pane-title">3 参与对象与名单</h2>
+                <p style="color: #666;">在此配置活动的准入门槛与黑白名单限制...</p>
+            </div>
+
+            <!-- 步骤 4 -->
+            <div class="content-pane" id="pane-4">
+                <h2 class="pane-title" style="margin-bottom: 8px;">4 活动条件</h2>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 32px;">配置活动细节点设置</p>
+                
+                <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 16px; font-weight: 600;">福利金额</h3>
+                <div class="alert-box">设置为0的项目不会在前台显示</div>
+                
+                <div style="overflow-x: auto; margin-bottom: 50px;">
+                    <table class="data-table complex-table" style="min-width: 1100px;">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" style="width: 80px;">VIP等级</th>
+                                <th rowspan="2">晋级礼金</th>
+                                <th rowspan="2">生日礼金</th>
+                                <th rowspan="2">专属红包</th>
+                                <th colspan="2" style="border-bottom: 1px solid var(--border-color);">每周红包</th>
+                                <th colspan="2" style="border-bottom: 1px solid var(--border-color);">每月红包</th>
+                                <th rowspan="2" style="width: 90px;">专属客服</th>
+                                <th rowspan="2" style="width: 90px;">极速出款</th>
+                            </tr>
+                            <tr>
+                                <th>需求流水</th>
+                                <th>红包金额</th>
+                                <th>需求流水</th>
+                                <th>红包金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP0</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP1</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP2</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP3</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP4</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP5</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP6</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP7</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP8</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP9</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                            <tr>
+                                <td style="font-weight: 600; font-size: 14px;">VIP10</td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><input type="number" class="day-input" placeholder="0"></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 16px; font-weight: 600;">细节点设置</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">福利项目</th>
+                            <th style="width: 40%;">发放方式 <span class="info-icon" data-tip="金额≧输入值需要手动审核;填0全都要手动审核。">?</span></th>
+                            <th>注册时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>晋级礼金</td>
+                            <td>
+                                <div class="input-group">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
+                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;" checked>
+                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                    </label>
+                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                </div>
+                            </td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>每周红包</td>
+                            <td>
+                                <div class="input-group">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
+                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                    </label>
+                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                </div>
+                            </td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>生日礼金</td>
+                            <td>
+                                <div class="input-group">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
+                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                    </label>
+                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-suffix-group">
+                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                    <span>日</span>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>专属红包</td>
+                            <td>
+                                <div class="input-group">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
+                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                    </label>
+                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                </div>
+                            </td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>每月红包</td>
+                            <td>
+                                <div class="input-group">
+                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
+                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
+                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                    </label>
+                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                </div>
+                            </td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 步骤 5 -->
+            <div class="content-pane" id="pane-5">
+                <h2 class="pane-title">5 风控设定</h2>
+                <p style="color: #666;">配置IP限制、设备限制、多账号防刷等规则...</p>
+            </div>
+
+            <!-- 步骤 6 (领取条件) -->
+            <div class="content-pane" id="pane-6">
+                <h2 class="pane-title" style="margin-bottom: 8px;">6 领取条件</h2>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 32px;">设置活动奖励的领取条件与限制规则</p>
+
+                <!-- 晋级礼金 -->
+                <div class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">晋级礼金</h3>
+                    <div class="card-row" style="margin-bottom: 0;">
+                        <!-- 领取方式 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">领取方式</div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_1" value="auto" checked>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">自动领取</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_1" value="manual">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">手动领取</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 有效领取天数 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">
+                                有效领取天数
+                                <span class="info-icon" data-tip="最高设置30天">?</span>
+                            </div>
+                            <div class="input-suffix-group">
+                                <input type="number" class="day-input" placeholder="">
+                                <span>日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 每周红包 -->
+                <div class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">每周红包</h3>
+                    <div class="card-row" style="margin-bottom: 0;">
+                        <!-- 领取方式 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">领取方式</div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_2" value="auto" checked>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">自动领取</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_2" value="manual">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">手动领取</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 有效领取天数 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">
+                                有效领取天数
+                                <span class="info-icon" data-tip="最高设置30天">?</span>
+                            </div>
+                            <div class="input-suffix-group">
+                                <input type="number" class="day-input" placeholder="">
+                                <span>日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 生日礼金 -->
+                <div class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">生日礼金</h3>
+                    <div class="card-row" style="margin-bottom: 0;">
+                        <!-- 领取方式 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">领取方式</div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_3" value="auto" checked>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">自动领取</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_3" value="manual">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">手动领取</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 有效领取天数 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">
+                                有效领取天数
+                                <span class="info-icon" data-tip="最高设置30天">?</span>
+                            </div>
+                            <div class="input-suffix-group">
+                                <input type="number" class="day-input" placeholder="">
+                                <span>日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 专属红包 -->
+                <div class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
+                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">专属红包</h3>
+                    <div class="card-row" style="margin-bottom: 0;">
+                        <!-- 领取方式 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">领取方式</div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_4" value="auto" checked>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">自动领取</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_4" value="manual">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">手动领取</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 有效领取天数 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">
+                                有效领取天数
+                                <span class="info-icon" data-tip="最高设置30天">?</span>
+                            </div>
+                            <div class="input-suffix-group">
+                                <input type="number" class="day-input" placeholder="">
+                                <span>日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 每月红包 -->
+                <div class="welfare-item-section">
+                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">每月红包</h3>
+                    <div class="card-row" style="margin-bottom: 0;">
+                        <!-- 领取方式 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">领取方式</div>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_5" value="auto" checked>
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">自动领取</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="receive_method_5" value="manual">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">手动领取</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- 有效领取天数 -->
+                        <div class="setting-card">
+                            <div class="setting-card-title">
+                                有效领取天数
+                                <span class="info-icon" data-tip="最高设置30天">?</span>
+                            </div>
+                            <div class="input-suffix-group">
+                                <input type="number" class="day-input" placeholder="">
+                                <span>日</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 步骤 7 (提现稽核流水比例) -->
+            <div class="content-pane" id="pane-7">
+                <h2 class="pane-title">7 提现稽核流水比例</h2>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>福利项目</th>
+                            <th>提现稽核流水比例</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>晋级礼金</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="number" class="percentage-input" value="100"> %
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>每周红包</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="number" class="percentage-input" value="100"> %
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>生日礼金</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="number" class="percentage-input" value="100"> %
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>专属红包</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="number" class="percentage-input" value="100"> %
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>每月红包</td>
+                            <td>
+                                <div class="input-group">
+                                    <input type="number" class="percentage-input" value="100"> %
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 步骤 8 (空白) -->
+            <div class="content-pane" id="pane-8">
+                <!-- 空白页内容 -->
+            </div>
+
+            <!-- 底部导航按钮 (已移除) -->
+        </main>
+    </div>
+
+    <script>
+        const navItems = document.querySelectorAll('.step-item');
+        const panes = document.querySelectorAll('.content-pane');
+        let currentStep = 1;
+
+        function goToStep(step) {
+            currentStep = step;
+
+            // 更新导航栏状态
+            navItems.forEach(item => {
+                const id = parseInt(item.dataset.id);
+                item.classList.remove('active');
+                if (id === currentStep) item.classList.add('active');
+            });
+
+            // 更新内容面板
+            panes.forEach(pane => {
+                pane.classList.remove('active');
+            });
+            document.getElementById(`pane-${currentStep}`).classList.add('active');
+        }
+
+        // 导航点击事件
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                goToStep(parseInt(item.dataset.id));
+            });
+        });
+
+        // 步骤 6：自动/手动领取状态联动，当选择自动领取时禁用天数输入
+        function initReceiveMethodToggle() {
+            const radios = document.querySelectorAll('.radio-group input[type="radio"]');
+
+            function updateInputState(radio) {
+                const cardRow = radio.closest('.card-row');
+                if (!cardRow) return;
+
+                const dayInput = cardRow.querySelector('.day-input');
+                if (dayInput) {
+                    const isAuto = radio.value === 'auto';
+                    dayInput.disabled = isAuto;
+                    if (isAuto) {
+                        dayInput.value = ''; // 自动领取时清空输入框
+                    }
+                }
+            }
+
+            // 初始化所有已选择的Radio状态
+            document.querySelectorAll('.radio-group input[type="radio"]:checked').forEach(radio => {
+                updateInputState(radio);
+            });
+
+            // 绑定变化事件
+            radios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    updateInputState(e.target);
+                });
+            });
+        }
+
+        // 步骤 4：自动审核联动，当未勾选时禁用输入
+        function initAutoAuditToggle() {
+            const auditCheckboxes = document.querySelectorAll('#pane-4 input[type="checkbox"]');
+
+            function updateAuditInputState(checkbox) {
+                const row = checkbox.closest('tr');
+                if (!row) return;
+
+                const input = row.querySelector('.day-input');
+                if (input) {
+                    input.disabled = !checkbox.checked;
+                    if (!checkbox.checked) {
+                        input.value = ''; // 未勾选时清空
+                    }
+                }
+            }
+
+            auditCheckboxes.forEach(checkbox => {
+                // 初始化
+                updateAuditInputState(checkbox);
+                
+                // 绑定事件
+                checkbox.addEventListener('change', () => {
+                    updateAuditInputState(checkbox);
+                });
+            });
+        }
+
+        // 初始化
+        initReceiveMethodToggle();
+        initAutoAuditToggle();
+    </script>
+</body>
+
+</html>
