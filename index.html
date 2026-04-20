@@ -565,6 +565,78 @@
             margin: 0;
             box-sizing: border-box;
         }
+        /* 送出预览样式 */
+        .preview-section {
+            display: flex;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .preview-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .preview-header {
+            width: 180px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .preview-step-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .preview-step-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+            line-height: 24px;
+        }
+        .preview-step-title .required {
+            color: #ef4444;
+            margin-left: 2px;
+        }
+
+        .preview-content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            row-gap: 20px;
+            column-gap: 40px;
+        }
+
+        .preview-item {
+            display: flex;
+            align-items: flex-start;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .preview-label {
+            color: var(--text-secondary);
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+
+        .preview-value {
+            color: var(--text-main);
+        }
     </style>
 </head>
 
@@ -586,7 +658,7 @@
                     </li>
                     <li class="step-item" data-id="3">
                         <div class="step-icon">3</div>
-                        <div class="step-label">参与对象与名单</div>
+                        <div class="step-label">黑名单</div>
                     </li>
                     <li class="step-item" data-id="4">
                         <div class="step-icon">4</div>
@@ -618,35 +690,67 @@
             <!-- 步骤 1 -->
             <div class="content-pane active" id="pane-1">
                 <h2 class="pane-title">1 活动模板设置</h2>
-                <div class="form-row">
-                    <label>活动名称</label>
-                    <input type="text" class="form-input" placeholder="输入活动名称...">
-                </div>
-                <div class="form-row">
-                    <label>显示模板</label>
-                    <select class="form-input">
-                        <option>标准存款模板</option>
-                        <option>节日限定模板</option>
-                    </select>
-                </div>
+                <div class="blank-page-notice" style="height: 60vh; font-size: 16px;">同体育活动设置</div>
             </div>
 
             <!-- 步骤 2 -->
             <div class="content-pane" id="pane-2">
                 <h2 class="pane-title">2 活动图片</h2>
-                <div class="form-row">
-                    <label>Banner 图片上传</label>
-                    <div
-                        style="height: 150px; background: #fafafa; border: 2px dashed #eee; display:flex; align-items:center; justify-content:center; border-radius:10px; color:#aaa;">
-                        拖拽图片至此处 (PC/H5)
-                    </div>
-                </div>
+                <div class="blank-page-notice" style="height: 60vh; font-size: 16px;">同体育活动设置</div>
             </div>
 
             <!-- 步骤 3 -->
             <div class="content-pane" id="pane-3">
-                <h2 class="pane-title">3 参与对象与名单</h2>
-                <p style="color: #666;">在此配置活动的准入门槛与黑白名单限制...</p>
+                <h2 class="pane-title" style="margin-bottom: 24px; border-bottom: none; font-size: 24px;">3 黑名单设置</h2>
+                
+                <div class="setting-card" style="margin-bottom: 24px; padding: 24px; border-radius: 8px;">
+                    <div style="font-weight: 600; font-size: 15px; color: var(--text-main); margin-bottom: 16px;">黑名单限制层级</div>
+                    <select class="form-input" style="color: var(--text-secondary); margin-bottom: 12px; background-color: #fff;">
+                        <option>请选择黑名单限制层级</option>
+                    </select>
+                    <div style="font-size: 13px; color: var(--text-muted);">选择层级以排除参赛参赛体</div>
+                </div>
+
+                <div class="setting-card" style="margin-bottom: 24px; padding: 24px; border-radius: 8px;">
+                    <div style="font-weight: 600; font-size: 15px; color: var(--text-main); margin-bottom: 16px;">用户标签</div>
+                    <select class="form-input" style="color: var(--text-secondary); margin-bottom: 12px; background-color: #fff;">
+                        <option>请选择用户标签</option>
+                    </select>
+                    <div style="font-size: 13px; color: var(--text-muted);">选择标签以排除参赛参赛体</div>
+                </div>
+
+                <div class="setting-card" style="margin-bottom: 24px; padding: 24px; border-radius: 8px;">
+                    <div style="font-weight: 600; font-size: 15px; color: var(--text-main); margin-bottom: 20px;">标签命中模式</div>
+                    
+                    <div class="radio-group" style="display: flex; flex-direction: column; gap: 24px;">
+                        <label class="radio-label" style="align-items: flex-start;">
+                            <input type="radio" name="tag_mode_setting" value="any" checked>
+                            <span class="radio-custom" style="margin-top: 2px;"></span>
+                            <div class="radio-text-container" style="flex: 1;">
+                                <div style="font-weight: 600; color: var(--text-main); margin-bottom: 6px; font-size: 15px;">包含任一所选标签</div>
+                                <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">只要用户拥有任一所选标签，即列入名单。</div>
+                            </div>
+                        </label>
+                        
+                        <label class="radio-label" style="align-items: flex-start;">
+                            <input type="radio" name="tag_mode_setting" value="all">
+                            <span class="radio-custom" style="margin-top: 2px;"></span>
+                            <div class="radio-text-container" style="flex: 1;">
+                                <div style="font-weight: 600; color: var(--text-main); margin-bottom: 6px; font-size: 15px;">包含全部所选标签</div>
+                                <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">用户需同时拥有全部所选标签，即列入名单；若有其他标签，仍视为命中。</div>
+                            </div>
+                        </label>
+                        
+                        <label class="radio-label" style="align-items: flex-start;">
+                            <input type="radio" name="tag_mode_setting" value="exact">
+                            <span class="radio-custom" style="margin-top: 2px;"></span>
+                            <div class="radio-text-container" style="flex: 1;">
+                                <div style="font-weight: 600; color: var(--text-main); margin-bottom: 6px; font-size: 15px;">仅限所选标签</div>
+                                <div style="font-size: 13px; color: var(--text-muted); line-height: 1.5;">仅当用户身上的标签与所选标签完全一致时，才列入名单；若存在其他额外标签，则不命中。</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <!-- 步骤 4 -->
@@ -901,7 +1005,7 @@
             <!-- 步骤 5 -->
             <div class="content-pane" id="pane-5">
                 <h2 class="pane-title">5 风控设定</h2>
-                <p style="color: #666;">配置IP限制、设备限制、多账号防刷等规则...</p>
+                <div class="blank-page-notice" style="height: 60vh; font-size: 16px;">同体育活动设置</div>
             </div>
 
             <!-- 步骤 6 (领取条件) -->
@@ -1140,9 +1244,375 @@
                 </table>
             </div>
 
-            <!-- 步骤 8 (空白) -->
+            <!-- 步骤 8 -->
             <div class="content-pane" id="pane-8">
-                <!-- 空白页内容 -->
+                <h2 class="pane-title" style="margin-bottom: 30px;">8 送出预览</h2>
+                
+                <div style="background-color: #fff; border-radius: 8px; padding: 30px; border: 1px solid var(--border-color);">
+                    <!-- Section 3 -->
+                    <div class="preview-section">
+                        <div class="preview-header">
+                            <div class="preview-step-icon">3</div>
+                            <div class="preview-step-title">黑名单</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-item"><span class="preview-label">黑名单限制层级：</span><span class="preview-value">–</span></div>
+                            <div class="preview-item"><span class="preview-label">用户标签：</span><span class="preview-value">–</span></div>
+                            <div class="preview-item"><span class="preview-label">标签命中模式：</span><span class="preview-value">包含任一所选标签</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4 -->
+                    <div class="preview-section" style="flex-wrap: wrap;">
+                        <div class="preview-header" style="width: 100%; margin-bottom: 20px;">
+                            <div class="preview-step-icon">4</div>
+                            <div class="preview-step-title">活动条件<span class="required">*</span></div>
+                        </div>
+                        <div style="width: 100%;">
+                            <h4 style="font-size: 15px; color: var(--text-main); margin-bottom: 16px; font-weight: 600;">福利金额</h4>
+                            <div style="overflow-x: auto;">
+                                <table class="data-table complex-table" style="min-width: 1000px; font-size: 13px;">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style="width: 80px;">VIP等级</th>
+                                            <th rowspan="2">晋级礼金</th>
+                                            <th rowspan="2">生日礼金</th>
+                                            <th rowspan="2">专属红包</th>
+                                            <th colspan="2" style="border-bottom: 1px solid var(--border-color);">每周红包</th>
+                                            <th colspan="2" style="border-bottom: 1px solid var(--border-color);">每月红包</th>
+                                            <th rowspan="2" style="width: 80px;">专属客服</th>
+                                            <th rowspan="2" style="width: 80px;">极速出款</th>
+                                        </tr>
+                                        <tr>
+                                            <th>需求流水</th>
+                                            <th>红包金额</th>
+                                            <th>需求流水</th>
+                                            <th>红包金额</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align: center; color: var(--text-secondary); background: #fff;">
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP1</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP2</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP3</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP4</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP5</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP6</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP7</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP8</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP9</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP10</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">0</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                            <td style="padding: 14px 8px;">关闭</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <h4 style="font-size: 15px; color: var(--text-main); margin-top: 32px; margin-bottom: 16px; font-weight: 600;">细节点设置</h4>
+                            <table class="data-table" style="font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; padding: 12px 24px;">福利项目</th>
+                                        <th style="width: 40%; padding: 12px 24px;">发放方式 <span class="info-icon" style="cursor: default;" data-tip="金额≧输入值需要手动审核;填0全都要手动审核。">?</span></th>
+                                        <th style="padding: 12px 24px;">注册时间</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">晋级礼金</td>
+                                        <td style="padding: 14px 24px;">
+                                            <div class="input-group">
+                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
+                                                    <input type="checkbox" style="width: 16px; height: 16px;" checked disabled>
+                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                                </label>
+                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">每周红包</td>
+                                        <td style="padding: 14px 24px;">
+                                            <div class="input-group">
+                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
+                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
+                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                                </label>
+                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">生日礼金</td>
+                                        <td style="padding: 14px 24px;">
+                                            <div class="input-group">
+                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
+                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
+                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                                </label>
+                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 14px 24px;">
+                                            <div class="input-suffix-group">
+                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                                <span>日</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">专属红包</td>
+                                        <td style="padding: 14px 24px;">
+                                            <div class="input-group">
+                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
+                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
+                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                                </label>
+                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">每月红包</td>
+                                        <td style="padding: 14px 24px;">
+                                            <div class="input-group">
+                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
+                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
+                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                                </label>
+                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                            </div>
+                                        </td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section 5 -->
+                    <div class="preview-section">
+                        <div class="preview-header">
+                            <div class="preview-step-icon">5</div>
+                            <div class="preview-step-title">风控设定</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-item"><span class="preview-label">同IP检测：</span><span class="preview-value">否</span></div>
+                            <div class="preview-item"><span class="preview-label">同姓名检测：</span><span class="preview-value">否</span></div>
+                            <div class="preview-item"><span class="preview-label">同手机号检测：</span><span class="preview-value">否</span></div>
+                            <div class="preview-item"><span class="preview-label">同email检测：</span><span class="preview-value">否</span></div>
+                            <div class="preview-item"><span class="preview-label">自动拒绝：</span><span class="preview-value">未设置</span></div>
+                        </div>
+                    </div>
+
+                    <!-- Section 6 -->
+                    <div class="preview-section" style="flex-wrap: wrap;">
+                        <div class="preview-header" style="width: 100%; margin-bottom: 20px;">
+                            <div class="preview-step-icon">6</div>
+                            <div class="preview-step-title">领取条件</div>
+                        </div>
+                        <div style="width: 100%;">
+                            <table class="data-table" style="font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 25%; padding: 12px 24px;">福利项目</th>
+                                        <th style="width: 37.5%; padding: 12px 24px;">领取方式</th>
+                                        <th style="width: 37.5%; padding: 12px 24px;">有效天数</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">晋级礼金</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">自动领取</td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">每周红包</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">自动领取</td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">生日礼金</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">自动领取</td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">专属红包</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">自动领取</td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">每月红包</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">自动领取</td>
+                                        <td style="padding: 14px 24px;">-</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Section 7 -->
+                    <div class="preview-section" style="flex-wrap: wrap;">
+                        <div class="preview-header" style="width: 100%; margin-bottom: 20px;">
+                            <div class="preview-step-icon">7</div>
+                            <div class="preview-step-title">提款条件</div>
+                        </div>
+                        <div style="width: 100%;">
+                            <table class="data-table" style="font-size: 13px;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 50%; padding: 12px 24px;">福利项目</th>
+                                        <th style="width: 50%; padding: 12px 24px;">提现稽核流水比例</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">晋级礼金</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">100%</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">每周红包</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">100%</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">生日礼金</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">100%</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">专属红包</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">100%</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 14px 24px;">每月红包</td>
+                                        <td style="padding: 14px 24px; color: var(--text-main);">100%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 底部导航按钮 (已移除) -->
