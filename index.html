@@ -923,7 +923,7 @@
                     <thead>
                         <tr>
                             <th style="width: 25%;">福利项目</th>
-                            <th style="width: 40%;">发放方式 <span class="info-icon" data-tip="金额≧输入值需要手动审核;填0全都要手动审核。">?</span></th>
+                            <th style="width: 50%;">发放方式</th>
                             <th>注册时间</th>
                         </tr>
                     </thead>
@@ -931,12 +931,18 @@
                         <tr>
                             <td>晋级礼金</td>
                             <td>
-                                <div class="input-group">
-                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
-                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;" checked>
-                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                <div class="radio-group" style="gap: 20px; align-items: center;">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_1" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">审核发放</span>
                                     </label>
-                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                    <input type="text" class="day-input" style="width: 320px; padding: 6px 12px; height: 32px; font-size: 12px; border-radius: 4px;" placeholder="金额≧输入值需要手动审核;填0全都要手动审核">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_1" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动发放</span>
+                                    </label>
                                 </div>
                             </td>
                             <td>-</td>
@@ -944,12 +950,18 @@
                         <tr>
                             <td>每周红包</td>
                             <td>
-                                <div class="input-group">
-                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
-                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                <div class="radio-group" style="gap: 20px; align-items: center;">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_2" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">审核发放</span>
                                     </label>
-                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                    <input type="text" class="day-input" style="width: 320px; padding: 6px 12px; height: 32px; font-size: 12px; border-radius: 4px;" placeholder="金额≧输入值需要手动审核;填0全都要手动审核">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_2" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动发放</span>
+                                    </label>
                                 </div>
                             </td>
                             <td>-</td>
@@ -957,12 +969,18 @@
                         <tr>
                             <td>生日礼金</td>
                             <td>
-                                <div class="input-group">
-                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
-                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                <div class="radio-group" style="gap: 20px; align-items: center;">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_3" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">审核发放</span>
                                     </label>
-                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                    <input type="text" class="day-input" style="width: 320px; padding: 6px 12px; height: 32px; font-size: 12px; border-radius: 4px;" placeholder="金额≧输入值需要手动审核;填0全都要手动审核">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_3" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动发放</span>
+                                    </label>
                                 </div>
                             </td>
                             <td>
@@ -975,12 +993,18 @@
                         <tr>
                             <td>专属红包</td>
                             <td>
-                                <div class="input-group">
-                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
-                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                <div class="radio-group" style="gap: 20px; align-items: center;">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_4" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">审核发放</span>
                                     </label>
-                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                    <input type="text" class="day-input" style="width: 320px; padding: 6px 12px; height: 32px; font-size: 12px; border-radius: 4px;" placeholder="金额≧输入值需要手动审核;填0全都要手动审核">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_4" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动发放</span>
+                                    </label>
                                 </div>
                             </td>
                             <td>-</td>
@@ -988,12 +1012,18 @@
                         <tr>
                             <td>每月红包</td>
                             <td>
-                                <div class="input-group">
-                                    <label style="display: flex; align-items: center; gap: 8px; cursor: pointer; min-width: 100px;">
-                                        <input type="checkbox" style="width: 16px; height: 16px; cursor: pointer;">
-                                        <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                <div class="radio-group" style="gap: 20px; align-items: center;">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_5" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">审核发放</span>
                                     </label>
-                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
+                                    <input type="text" class="day-input" style="width: 320px; padding: 6px 12px; height: 32px; font-size: 12px; border-radius: 4px;" placeholder="金额≧输入值需要手动审核;填0全都要手动审核">
+                                    <label class="radio-label" style="font-size: 14px;">
+                                        <input type="radio" name="audit_mode_5" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动发放</span>
+                                    </label>
                                 </div>
                             </td>
                             <td>-</td>
@@ -1432,7 +1462,7 @@
                                 <thead>
                                     <tr>
                                         <th style="width: 25%; padding: 12px 24px;">福利项目</th>
-                                        <th style="width: 40%; padding: 12px 24px;">发放方式 <span class="info-icon" style="cursor: default;" data-tip="金额≧输入值需要手动审核;填0全都要手动审核。">?</span></th>
+                                        <th style="width: 50%; padding: 12px 24px;">发放方式</th>
                                         <th style="padding: 12px 24px;">注册时间</th>
                                     </tr>
                                 </thead>
@@ -1440,12 +1470,18 @@
                                     <tr>
                                         <td style="padding: 14px 24px;">晋级礼金</td>
                                         <td style="padding: 14px 24px;">
-                                            <div class="input-group">
-                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
-                                                    <input type="checkbox" style="width: 16px; height: 16px;" checked disabled>
-                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                            <div class="radio-group" style="gap: 20px; align-items: center;">
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_1" value="manual" checked disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">审核发放</span>
                                                 </label>
-                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                                <input type="text" class="day-input" style="width: 280px; padding: 4px 10px; height: 28px; font-size: 11px; border-radius: 4px; background-color: #f9f9f9;" value="金额≧输入值需要手动审核;填0全都要手动审核" disabled>
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_1" value="auto" disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">自动发放</span>
+                                                </label>
                                             </div>
                                         </td>
                                         <td style="padding: 14px 24px;">-</td>
@@ -1453,12 +1489,18 @@
                                     <tr>
                                         <td style="padding: 14px 24px;">每周红包</td>
                                         <td style="padding: 14px 24px;">
-                                            <div class="input-group">
-                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
-                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
-                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                            <div class="radio-group" style="gap: 20px; align-items: center;">
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_2" value="manual" checked disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">审核发放</span>
                                                 </label>
-                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                                <input type="text" class="day-input" style="width: 280px; padding: 4px 10px; height: 28px; font-size: 11px; border-radius: 4px; background-color: #f9f9f9;" value="金额≧输入值需要手动审核;填0全都要手动审核" disabled>
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_2" value="auto" disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">自动发放</span>
+                                                </label>
                                             </div>
                                         </td>
                                         <td style="padding: 14px 24px;">-</td>
@@ -1466,12 +1508,18 @@
                                     <tr>
                                         <td style="padding: 14px 24px;">生日礼金</td>
                                         <td style="padding: 14px 24px;">
-                                            <div class="input-group">
-                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
-                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
-                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                            <div class="radio-group" style="gap: 20px; align-items: center;">
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_3" value="manual" checked disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">审核发放</span>
                                                 </label>
-                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                                <input type="text" class="day-input" style="width: 280px; padding: 4px 10px; height: 28px; font-size: 11px; border-radius: 4px; background-color: #f9f9f9;" value="金额≧输入值需要手动审核;填0全都要手动审核" disabled>
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_3" value="auto" disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">自动发放</span>
+                                                </label>
                                             </div>
                                         </td>
                                         <td style="padding: 14px 24px;">
@@ -1484,12 +1532,18 @@
                                     <tr>
                                         <td style="padding: 14px 24px;">专属红包</td>
                                         <td style="padding: 14px 24px;">
-                                            <div class="input-group">
-                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
-                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
-                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                            <div class="radio-group" style="gap: 20px; align-items: center;">
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_4" value="manual" checked disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">审核发放</span>
                                                 </label>
-                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                                <input type="text" class="day-input" style="width: 280px; padding: 4px 10px; height: 28px; font-size: 11px; border-radius: 4px; background-color: #f9f9f9;" value="金额≧输入值需要手动审核;填0全都要手动审核" disabled>
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_4" value="auto" disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">自动发放</span>
+                                                </label>
                                             </div>
                                         </td>
                                         <td style="padding: 14px 24px;">-</td>
@@ -1497,12 +1551,18 @@
                                     <tr>
                                         <td style="padding: 14px 24px;">每月红包</td>
                                         <td style="padding: 14px 24px;">
-                                            <div class="input-group">
-                                                <label style="display: flex; align-items: center; gap: 8px; cursor: not-allowed; min-width: 100px;">
-                                                    <input type="checkbox" style="width: 16px; height: 16px;" disabled>
-                                                    <span style="font-size: 14px; color: var(--text-secondary);">自动审核</span>
+                                            <div class="radio-group" style="gap: 20px; align-items: center;">
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_5" value="manual" checked disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">审核发放</span>
                                                 </label>
-                                                <input type="number" class="day-input" style="width: 80px;" value="0" disabled>
+                                                <input type="text" class="day-input" style="width: 280px; padding: 4px 10px; height: 28px; font-size: 11px; border-radius: 4px; background-color: #f9f9f9;" value="金额≧输入值需要手动审核;填0全都要手动审核" disabled>
+                                                <label class="radio-label" style="font-size: 13px; cursor: default;">
+                                                    <input type="radio" name="preview_audit_5" value="auto" disabled>
+                                                    <span class="radio-custom" style="width: 15px; height: 15px; margin-right: 6px;"></span>
+                                                    <span class="radio-text">自动发放</span>
+                                                </label>
                                             </div>
                                         </td>
                                         <td style="padding: 14px 24px;">-</td>
