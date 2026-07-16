@@ -362,39 +362,9 @@
             position: relative;
         }
 
-        /* 提示框主體 */
-        .info-icon:hover::after {
-            content: attr(data-tip);
-            position: absolute;
-            bottom: 130%;
-            left: 50%;
-            transform: translateX(-50%);
-            white-space: nowrap;
-            background: #333333;
-            color: #ffffff;
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: normal;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-            pointer-events: none;
-            z-index: 1000;
-            animation: fadeInTooltip 0.2s ease-in-out;
-        }
+        
 
-        /* 提示框小箭頭 */
-        .info-icon:hover::before {
-            content: '';
-            position: absolute;
-            bottom: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            border: 5px solid transparent;
-            border-top-color: #333333;
-            pointer-events: none;
-            z-index: 1000;
-            animation: fadeInTooltip 0.2s ease-in-out;
-        }
+        
 
         @keyframes fadeInTooltip {
             from { opacity: 0; transform: translate(-50%, 5px); }
@@ -538,6 +508,10 @@
         .toggle-switch input:checked + .toggle-slider:before {
             transform: translateX(20px);
         }
+
+        .toggle-switch.toggle-red input:checked + .toggle-slider {
+            background-color: #ff4d4f;
+        }
         
         /* 複雜表格 (多行表頭) */
         .complex-table {
@@ -637,6 +611,35 @@
         .preview-value {
             color: var(--text-main);
         }
+    
+        /* Global Tooltip (放到最外层) */
+        .global-tooltip {
+            position: fixed;
+            transform: translate(-50%, -100%);
+            max-width: 320px;
+            white-space: normal;
+            background: #333333;
+            color: #ffffff;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: normal;
+            line-height: 1.5;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            pointer-events: none;
+            z-index: 999999;
+            animation: fadeInTooltip 0.2s ease-in-out;
+        }
+        .global-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 5px solid transparent;
+            border-top-color: #333333;
+        }
+
     </style>
 </head>
 
@@ -704,11 +707,7 @@
                             </label>
                             <select id="templateSelect" class="form-input" style="color: var(--text-muted); background-color: #fff;">
                                 <option>请选择活动模板</option>
-                                <option>晋级礼金</option>
-                                <option>生日礼金</option>
-                                <option>专属红包</option>
-                                <option>每周红包</option>
-                                <option>每月红包</option>
+                                <option>VIP活动</option>
                             </select>
                         </div>
                         <div style="flex: 1;">
@@ -867,11 +866,17 @@
                 <div class="alert-box">设置为0的项目不会在前台显示</div>
                 
                 <div style="overflow-x: auto; margin-bottom: 50px;">
-                    <table id="activityConditionsTable" class="data-table complex-table" style="min-width: 400px;">
+                    <table id="activityConditionsTable" class="data-table complex-table" style="min-width: 1200px; width: 100%; white-space: nowrap;">
                         <thead>
                             <tr>
                                 <th style="width: 80px;">VIP等级</th>
                                 <th>晋级礼金</th>
+                                <th>每周红包<br><span style="font-size:12px;font-weight:normal">(需求流水)</span></th>
+                                <th>每周红包<br><span style="font-size:12px;font-weight:normal">(金额)</span></th>
+                                <th>每月红包<br><span style="font-size:12px;font-weight:normal">(需求流水)</span></th>
+                                <th>每月红包<br><span style="font-size:12px;font-weight:normal">(金额)</span></th>
+                                <th>生日礼金</th>
+                                <th>专属红包</th>
                                 <th style="width: 90px;">专属客服</th>
                                 <th style="width: 90px;">极速出款</th>
                             </tr>
@@ -879,110 +884,260 @@
                         <tbody>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP0</td>
-                                <td><input type="number" class="day-input" value="0" disabled></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP1</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP2</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP3</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP4</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP5</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP6</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP7</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP8</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP9</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                             <tr>
                                 <td style="font-weight: 600; font-size: 14px;">VIP10</td>
-                                <td><input type="number" class="day-input" value="0"></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
-                                <td><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入流水"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><input type="text" class="day-input" placeholder="请输入金额"></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
+                                <td><label class="toggle-switch toggle-red"><input type="checkbox" checked><span class="toggle-slider"></span></label></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <h3 style="font-size: 18px; color: var(--text-main); margin-bottom: 16px; font-weight: 600;">细节点设置</h3>
-                <table class="data-table" id="audit-settings-table">
-                    <thead>
-                        <tr id="auditTableHeader">
-                            <th style="width: 25%;">福利项目</th>
-                            <th style="width: 50%;" id="auditMethodHeader">发放方式</th>
-                            <th style="width: 25%; display: none;" id="auditRegTimeHeader">注册时间</th>
+                                <div class="setting-card-title">审核方式<span class="info-icon" data-tip="自动审核时，免费旋转的价值，将以旋转次数 × 系统币值预设基础金额计算；如果三方允许自定投注金额，则以旋转次数 × 自定投注金额计算。">?</span></div>
+                <div class="alert-box">金额≥输入值需要手动审核;填0全都要手动审核</div>
+                
+                <div class="setting-card" style="padding: 0; overflow: hidden; margin-bottom: 20px;">
+                    <table class="data-table" style="border: none; border-radius: 0;">
+                        <thead>
+                            <tr>
+                                <th style="width: 200px; text-align: center;">福利项目</th>
+                                <th style="text-align: center;">审核方式</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td style="font-weight: 600; text-align: center; width: 150px;">晋级礼金</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 30px;">
+                                    <label class="radio-label" style="font-size: 14px; color: var(--primary-color);">
+                                        <input type="radio" name="audit_mode_0" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">人工审核</span>
+                                    </label>
+                                    <label class="radio-label" style="font-size: 14px; color: var(--text-main);">
+                                        <input type="radio" name="audit_mode_0" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动审核</span>
+                                    </label>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-left: 20px;">
+                                        <span style="font-weight: 600; color: #555;">VND</span>
+                                        <input type="text" class="day-input" style="width: 300px; padding: 10px 14px;" placeholder="请输入金额" disabled>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr id="auditTableRow">
-                            <td id="auditItemName">晋级礼金</td>
-                            <td id="auditMethodCell">
-                                <div class="radio-group" style="gap: 20px; align-items: center;">
-                                    <label class="radio-label" style="font-size: 14px;">
+                        <tr>
+                            <td style="font-weight: 600; text-align: center; width: 150px;">每周红包</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 30px;">
+                                    <label class="radio-label" style="font-size: 14px; color: var(--primary-color);">
                                         <input type="radio" name="audit_mode_1" value="manual" checked>
                                         <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
-                                        <span class="radio-text">审核发放</span>
+                                        <span class="radio-text">人工审核</span>
                                     </label>
-                                    <input type="text" class="day-input" style="width: 320px; padding: 6px 12px; height: 32px; font-size: 12px; border-radius: 4px;" placeholder="金额≧输入值需要手动审核;填0全都要手动审核">
-                                    <label class="radio-label" style="font-size: 14px;">
+                                    <label class="radio-label" style="font-size: 14px; color: var(--text-main);">
                                         <input type="radio" name="audit_mode_1" value="auto">
                                         <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
-                                        <span class="radio-text">自动发放</span>
+                                        <span class="radio-text">自动审核</span>
                                     </label>
-                                </div>
-                            </td>
-                            <td id="auditRegTimeCell" style="display: none;">
-                                <div class="input-suffix-group">
-                                    <input type="number" class="day-input" style="width: 80px;" placeholder="0">
-                                    <span>日</span>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-left: 20px;">
+                                        <span style="font-weight: 600; color: #555;">VND</span>
+                                        <input type="text" class="day-input" style="width: 300px; padding: 10px 14px;" placeholder="请输入金额" disabled>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
+                        <tr>
+                            <td style="font-weight: 600; text-align: center; width: 150px;">每月红包</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 30px;">
+                                    <label class="radio-label" style="font-size: 14px; color: var(--primary-color);">
+                                        <input type="radio" name="audit_mode_2" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">人工审核</span>
+                                    </label>
+                                    <label class="radio-label" style="font-size: 14px; color: var(--text-main);">
+                                        <input type="radio" name="audit_mode_2" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动审核</span>
+                                    </label>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-left: 20px;">
+                                        <span style="font-weight: 600; color: #555;">VND</span>
+                                        <input type="text" class="day-input" style="width: 300px; padding: 10px 14px;" placeholder="请输入金额" disabled>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; text-align: center; width: 150px;">生日礼金</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 30px;">
+                                    <label class="radio-label" style="font-size: 14px; color: var(--primary-color);">
+                                        <input type="radio" name="audit_mode_3" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">人工审核</span>
+                                    </label>
+                                    <label class="radio-label" style="font-size: 14px; color: var(--text-main);">
+                                        <input type="radio" name="audit_mode_3" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动审核</span>
+                                    </label>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-left: 20px;">
+                                        <span style="font-weight: 600; color: #555;">VND</span>
+                                        <input type="text" class="day-input" style="width: 300px; padding: 10px 14px;" placeholder="请输入金额" disabled>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600; text-align: center; width: 150px;">专属红包</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 30px;">
+                                    <label class="radio-label" style="font-size: 14px; color: var(--primary-color);">
+                                        <input type="radio" name="audit_mode_4" value="manual" checked>
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">人工审核</span>
+                                    </label>
+                                    <label class="radio-label" style="font-size: 14px; color: var(--text-main);">
+                                        <input type="radio" name="audit_mode_4" value="auto">
+                                        <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                        <span class="radio-text">自动审核</span>
+                                    </label>
+                                    <div style="display: flex; align-items: center; gap: 10px; margin-left: 20px;">
+                                        <span style="font-weight: 600; color: #555;">VND</span>
+                                        <input type="text" class="day-input" style="width: 300px; padding: 10px 14px;" placeholder="请输入金额" disabled>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- 步骤 5 -->
@@ -996,235 +1151,103 @@
                 <h2 class="pane-title" style="margin-bottom: 8px;">6 领取条件</h2>
                 <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 32px;">设置活动奖励的领取条件与限制规则</p>
 
-                <!-- 晋级礼金 -->
-                <div id="receiveSection_晋级礼金" class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
-                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">晋级礼金</h3>
-                    <div class="card-row" style="margin-bottom: 0;">
-                        <!-- 领取方式 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">领取方式</div>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_1" value="auto" checked>
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">自动领取</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_1" value="manual">
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">手动领取</span>
-                                </label>
-                            </div>
+                
+                <!-- 统一领取条件 -->
+                <div class="card-row" style="margin-bottom: 24px;">
+                    <!-- 领取方式 -->
+                    <div class="setting-card">
+                        <div class="setting-card-title">领取方式</div>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="unified_receive_method" value="auto">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">自动领取</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="unified_receive_method" value="manual" checked>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">手动领取</span>
+                            </label>
                         </div>
+                    </div>
 
-                        <!-- 有效领取天数 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">
-                                有效领取天数
-                                <span class="info-icon" data-tip="最高设置30天">?</span>
-                            </div>
-                            <div class="input-suffix-group">
-                                <input type="number" class="day-input" placeholder="">
-                                <span>日</span>
-                            </div>
+                    <!-- 有效领取天数 -->
+                    <div class="setting-card">
+                        <div class="setting-card-title">
+                            有效领取天数
+                            <span class="info-icon" data-tip="最高设置30天">?</span>
+                        </div>
+                        <div class="input-suffix-group">
+                            <input type="number" class="day-input" id="unified_valid_days" placeholder="">
+                            <span>天</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 每周红包 -->
-                <div id="receiveSection_每周红包" class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
-                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">每周红包</h3>
-                    <div class="card-row" style="margin-bottom: 0;">
-                        <!-- 领取方式 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">领取方式</div>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_2" value="auto" checked>
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">自动领取</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_2" value="manual">
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">手动领取</span>
-                                </label>
-                            </div>
+                <div class="card-row" style="margin-bottom: 24px;">
+                    <!-- 已验证手机号 -->
+                    <div class="setting-card">
+                        <div class="setting-card-title">已验证手机号</div>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="unified_phone_verified" value="yes">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">是</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="unified_phone_verified" value="no" checked>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">否</span>
+                            </label>
                         </div>
+                    </div>
 
-                        <!-- 有效领取天数 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">
-                                有效领取天数
-                                <span class="info-icon" data-tip="最高设置30天">?</span>
-                            </div>
-                            <div class="input-suffix-group">
-                                <input type="number" class="day-input" placeholder="">
-                                <span>日</span>
-                            </div>
+                    <!-- 限制使用设备 -->
+                    <div class="setting-card">
+                        <div class="setting-card-title">限制使用设备</div>
+                        <div class="radio-group">
+                            <label class="radio-label">
+                                <input type="radio" name="unified_device" value="unlimited" checked>
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">无限制领奖设备</span>
+                            </label>
+                            <label class="radio-label">
+                                <input type="radio" name="unified_device" value="app">
+                                <span class="radio-custom"></span>
+                                <span class="radio-text">APP</span>
+                            </label>
                         </div>
                     </div>
                 </div>
 
-                <!-- 生日礼金 -->
-                <div id="receiveSection_生日礼金" class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
-                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">生日礼金</h3>
-                    <div class="card-row" style="margin-bottom: 0;">
-                        <!-- 领取方式 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">领取方式</div>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_3" value="auto" checked>
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">自动领取</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_3" value="manual">
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">手动领取</span>
-                                </label>
-                            </div>
+                <div class="card-row" style="margin-bottom: 24px;">
+                    <!-- 注册天数 -->
+                    <div class="setting-card" style="flex: unset; width: calc(50% - 10px);">
+                        <div class="setting-card-title">
+                            注册天数
+                            <span class="info-icon" data-tip="仅对“生日礼金”有效">?</span>
                         </div>
-
-                        <!-- 有效领取天数 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">
-                                有效领取天数
-                                <span class="info-icon" data-tip="最高设置30天">?</span>
-                            </div>
-                            <div class="input-suffix-group">
-                                <input type="number" class="day-input" placeholder="">
-                                <span>日</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 专属红包 -->
-                <div id="receiveSection_专属红包" class="welfare-item-section" style="margin-bottom: 30px; border-bottom: 1px dashed var(--border-color); padding-bottom: 30px;">
-                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">专属红包</h3>
-                    <div class="card-row" style="margin-bottom: 0;">
-                        <!-- 领取方式 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">领取方式</div>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_4" value="auto" checked>
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">自动领取</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_4" value="manual">
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">手动领取</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- 有效领取天数 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">
-                                有效领取天数
-                                <span class="info-icon" data-tip="最高设置30天">?</span>
-                            </div>
-                            <div class="input-suffix-group">
-                                <input type="number" class="day-input" placeholder="">
-                                <span>日</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 每月红包 -->
-                <div id="receiveSection_每月红包" class="welfare-item-section">
-                    <h3 style="font-size: 16px; margin-bottom: 16px; color: var(--text-main);">每月红包</h3>
-                    <div class="card-row" style="margin-bottom: 0;">
-                        <!-- 领取方式 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">领取方式</div>
-                            <div class="radio-group">
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_5" value="auto" checked>
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">自动领取</span>
-                                </label>
-                                <label class="radio-label">
-                                    <input type="radio" name="receive_method_5" value="manual">
-                                    <span class="radio-custom"></span>
-                                    <span class="radio-text">手动领取</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- 有效领取天数 -->
-                        <div class="setting-card">
-                            <div class="setting-card-title">
-                                有效领取天数
-                                <span class="info-icon" data-tip="最高设置30天">?</span>
-                            </div>
-                            <div class="input-suffix-group">
-                                <input type="number" class="day-input" placeholder="">
-                                <span>日</span>
-                            </div>
+                        <div class="input-suffix-group">
+                            <input type="number" class="day-input" id="unified_register_days" placeholder="">
+                            <span>天</span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- 步骤 7 (提现稽核流水比例) -->
             <div class="content-pane" id="pane-7">
-                <h2 class="pane-title">7 提现稽核流水比例</h2>
-                <table class="data-table">
-                    <thead>
-                        <tr>
-                            <th>福利项目</th>
-                            <th>提现稽核流水比例</th>
-                        </tr>
-                    </thead>
-                    <tbody id="withdrawalTableBody">
-                        <tr id="withdrawalRow_晋级礼金">
-                            <td>晋级礼金</td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" class="percentage-input" value="100"> %
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="withdrawalRow_每周红包">
-                            <td>每周红包</td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" class="percentage-input" value="100"> %
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="withdrawalRow_生日礼金">
-                            <td>生日礼金</td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" class="percentage-input" value="100"> %
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="withdrawalRow_专属红包">
-                            <td>专属红包</td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" class="percentage-input" value="100"> %
-                                </div>
-                            </td>
-                        </tr>
-                        <tr id="withdrawalRow_每月红包">
-                            <td>每月红包</td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" class="percentage-input" value="100"> %
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <h2 class="pane-title" style="margin-bottom: 8px;">7 提款条件</h2>
+                <p style="color: var(--text-secondary); font-size: 14px; margin-bottom: 32px;">请设置活动的提款稽核条件</p>
+
+                <div class="card-row" style="margin-bottom: 24px;">
+                    <!-- 提现稽核流水比例 -->
+                    <div class="setting-card" style="flex: unset; width: calc(50% - 10px);">
+                        <div class="setting-card-title">提现稽核流水比例</div>
+                        <div class="input-suffix-group">
+                            <input type="number" class="day-input" id="unified_withdrawal_ratio" value="0">
+                            <span>%</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 步骤 8 -->
@@ -1432,7 +1455,7 @@
                                                     <span style="display: inline-flex; align-items: center; gap: 8px; color: #4b89ff; font-weight: 600; font-size: 13px;">
                                                         <span style="width: 8px; height: 8px; background-color: #4b89ff; border-radius: 50%;"></span>审核发放
                                                     </span>
-                                                    <span style="font-size: 11px; color: #999;">金额≧100 需手动审核</span>
+                                                    <span style="font-size: 11px; color: #999;">金额≧VND 100 需手动审核</span>
                                                 </div>
                                             </td>
                                             <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
@@ -1496,7 +1519,7 @@
                                                     <span style="display: inline-flex; align-items: center; gap: 8px; color: #4b89ff; font-weight: 600; font-size: 13px;">
                                                         <span style="width: 8px; height: 8px; background-color: #4b89ff; border-radius: 50%;"></span>审核发放
                                                     </span>
-                                                    <span style="font-size: 11px; color: #999;">金额≧500 需手动审核</span>
+                                                    <span style="font-size: 11px; color: #999;">金额≧VND 500 需手动审核</span>
                                                 </div>
                                             </td>
                                             <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
@@ -1579,6 +1602,13 @@
                 pane.classList.remove('active');
             });
             document.getElementById(`pane-${currentStep}`).classList.add('active');
+            
+            if (currentStep === 8) {
+                const select = document.getElementById('templateSelect');
+                if (select && typeof updatePreviewTables === 'function') {
+                    updatePreviewTables(select.value);
+                }
+            }
         }
 
         // 导航点击事件
@@ -1621,31 +1651,24 @@
 
         // 步骤 4：自动审核联动，僅針對「細節點設置」表格
         function initAutoAuditToggle() {
-            const auditTable = document.getElementById('audit-settings-table');
-            if (!auditTable) return;
+            // New logic for Radio buttons
+            const auditRadios = document.querySelectorAll('input[type="radio"][name^="audit_mode_"]');
             
-            const auditCheckboxes = auditTable.querySelectorAll('input[type="checkbox"]');
-
-            function updateAuditInputState(checkbox) {
-                const group = checkbox.closest('.input-group');
-                if (!group) return;
-
-                const input = group.querySelector('.day-input');
-                if (input) {
-                    input.disabled = !checkbox.checked;
-                    if (!checkbox.checked) {
-                        input.value = ''; // 未勾選時清空
+            auditRadios.forEach(radio => {
+                radio.addEventListener('change', (e) => {
+                    // Find the closest td and then the input inside it
+                    const td = e.target.closest('td');
+                    if (td) {
+                        const input = td.querySelector('input[type="text"].day-input');
+                        if (input) {
+                            if (e.target.value === 'manual') {
+                                input.disabled = true;
+                                input.value = ''; // Optional: clear value
+                            } else {
+                                input.disabled = false;
+                            }
+                        }
                     }
-                }
-            }
-
-            auditCheckboxes.forEach(checkbox => {
-                // 初始化
-                updateAuditInputState(checkbox);
-                
-                // 绑定事件
-                checkbox.addEventListener('change', () => {
-                    updateAuditInputState(checkbox);
                 });
             });
         }
@@ -1698,6 +1721,8 @@
             };
             
             function updateActivityConditions(templateName) {
+                // Disabled dynamic table overwrite to keep the unified table
+                /*
                 if (!activityTable || !tableConfigs[templateName]) return;
                 
                 const config = tableConfigs[templateName];
@@ -1747,6 +1772,7 @@
                 }
                 tbody.innerHTML = rows.join('');
                 
+                */
                 // 更新细节点设置中的项目名称
                 if (auditItemName) {
                     auditItemName.textContent = templateName;
@@ -1772,10 +1798,10 @@
                     const withdrawalRow = document.getElementById(`withdrawalRow_${item}`);
                     
                     if (receiveSection) {
-                        receiveSection.style.display = (item === templateName) ? 'block' : 'none';
+                        receiveSection.style.display = (templateName === 'VIP活动' || item === templateName) ? 'block' : 'none';
                     }
                     if (withdrawalRow) {
-                        withdrawalRow.style.display = (item === templateName) ? 'table-row' : 'none';
+                        withdrawalRow.style.display = (templateName === 'VIP活动' || item === templateName) ? 'table-row' : 'none';
                     }
                 });
                 
@@ -1789,116 +1815,310 @@
                 const previewConfigBody = document.getElementById('previewConfigBody');
                 const previewRegTimeHeader = document.getElementById('previewRegTimeHeader');
                 
-                // 预览表格配置
-                const previewConfigs = {
-                    '晋级礼金': {
-                        header: ['VIP等级', '晋级礼金', '专属客服', '极速出款'],
-                        hasToggle: true,
-                        vip0Disabled: true
-                    },
-                    '生日礼金': {
-                        header: ['VIP等级', '生日礼金'],
-                        hasToggle: false,
-                        vip0Disabled: false
-                    },
-                    '专属红包': {
-                        header: ['VIP等级', '需求流水', '红包金额'],
-                        hasToggle: false,
-                        vip0Disabled: false,
-                        extraColumn: true
-                    },
-                    '每周红包': {
-                        header: ['VIP等级', '需求流水', '红包金额'],
-                        hasToggle: false,
-                        vip0Disabled: false,
-                        extraColumn: true
-                    },
-                    '每月红包': {
-                        header: ['VIP等级', '需求流水', '红包金额'],
-                        hasToggle: false,
-                        vip0Disabled: false,
-                        extraColumn: true
-                    }
-                };
-                
                 // 更新福利金额预览表格
                 if (previewWelfareTable) {
-                    const config = previewConfigs[templateName];
-                    const thead = previewWelfareTable.querySelector('thead');
-                    const tbody = previewWelfareTable.querySelector('tbody');
-                    
-                    // 更新表头
-                    let headerHTML = '<tr>';
-                    config.header.forEach((h, i) => {
-                        if (i === 0) {
-                            headerHTML += `<th rowspan="2" style="width: 80px;">${h}</th>`;
-                        } else if (h === '专属客服' || h === '极速出款') {
-                            headerHTML += `<th rowspan="2" style="width: 80px;">${h}</th>`;
-                        } else if (config.extraColumn && (h === '需求流水' || h === '红包金额')) {
-                            // 红包列合并表头
-                            if (h === '需求流水') {
-                                headerHTML += `<th colspan="2" style="border-bottom: 1px solid var(--border-color);">${templateName}</th>`;
-                            }
-                        } else {
-                            headerHTML += `<th rowspan="2">${h}</th>`;
-                        }
-                    });
-                    headerHTML += '</tr>';
-                    
-                    // 第二行表头（仅红包有）
-                    if (config.extraColumn) {
-                        headerHTML += '<tr><th>需求流水</th><th>红包金额</th></tr>';
-                    }
-                    
-                    thead.innerHTML = headerHTML;
-                    
-                    // 更新表格内容
-                    const rows = [];
-                    for (let i = 0; i <= 10; i++) {
-                        const isVip0 = i === 0;
-                        let cells = [`<td style="font-weight: 600; color: var(--text-main); padding: 14px 8px;">VIP${i}</td>`];
+                    if (templateName === 'VIP活动') {
+                        const thead = previewWelfareTable.querySelector('thead');
+                        const tbody = previewWelfareTable.querySelector('tbody');
                         
-                        if (config.extraColumn) {
-                            cells.push(`<td style="padding: 14px 8px;">0</td>`);
-                            cells.push(`<td style="padding: 14px 8px;">0</td>`);
-                        } else {
-                            cells.push(`<td style="padding: 14px 8px;">${isVip0 && config.vip0Disabled ? '0' : '0'}</td>`);
-                        }
+                        thead.innerHTML = `
+                            <tr>
+                                <th rowspan="2" style="width: 80px;">VIP等级</th>
+                                <th rowspan="2">晋级礼金</th>
+                                <th rowspan="2">生日礼金</th>
+                                <th rowspan="2">专属红包</th>
+                                <th colspan="2" style="border-bottom: 1px solid var(--border-color);">每周红包</th>
+                                <th colspan="2" style="border-bottom: 1px solid var(--border-color);">每月红包</th>
+                                <th rowspan="2" style="width: 80px;">专属客服</th>
+                                <th rowspan="2" style="width: 80px;">极速出款</th>
+                            </tr>
+                            <tr>
+                                <th>需求流水</th>
+                                <th>红包金额</th>
+                                <th>需求流水</th>
+                                <th>红包金额</th>
+                            </tr>
+                        `;
                         
-                        if (config.hasToggle) {
-                            cells.push(`<td style="padding: 14px 8px;">关闭</td>`);
-                            cells.push(`<td style="padding: 14px 8px;">关闭</td>`);
+                        const activityTable = document.getElementById('activityConditionsTable');
+                        if (activityTable) {
+                            const activityRows = activityTable.querySelectorAll('tbody tr');
+                            const previewRows = [];
+                            activityRows.forEach((actRow) => {
+                                const cells = actRow.cells;
+                                const vipLevel = cells[0].textContent.trim();
+                                
+                                const promo = cells[1].querySelector('input').value || '0';
+                                const weeklyTurnover = cells[2].querySelector('input').value || '0';
+                                const weeklyAmount = cells[3].querySelector('input').value || '0';
+                                const monthlyTurnover = cells[4].querySelector('input').value || '0';
+                                const monthlyAmount = cells[5].querySelector('input').value || '0';
+                                const birthday = cells[6].querySelector('input').value || '0';
+                                const exclusive = cells[7].querySelector('input').value || '0';
+                                
+                                const isCsChecked = cells[8].querySelector('input[type="checkbox"]').checked;
+                                const csText = isCsChecked ? '<span style="color: #10b981; font-weight: 600;">开启</span>' : '<span style="color: #999;">关闭</span>';
+                                
+                                const isWdChecked = cells[9].querySelector('input[type="checkbox"]').checked;
+                                const wdText = isWdChecked ? '<span style="color: #10b981; font-weight: 600;">开启</span>' : '<span style="color: #999;">关闭</span>';
+                                
+                                previewRows.push(`
+                                    <tr>
+                                        <td style="font-weight: 600; color: var(--text-main); padding: 14px 8px; text-align: center;">${vipLevel}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${promo}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${birthday}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${exclusive}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${weeklyTurnover}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${weeklyAmount}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${monthlyTurnover}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${monthlyAmount}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${csText}</td>
+                                        <td style="padding: 14px 8px; text-align: center;">${wdText}</td>
+                                    </tr>
+                                `);
+                            });
+                            tbody.innerHTML = previewRows.join('');
                         }
-                        
-                        rows.push(`<tr>${cells.join('')}</tr>`);
-                    }
-                    tbody.innerHTML = rows.join('');
-                    
-                    // 更新表格宽度
-                    const columnCount = config.header.length;
-                    if (columnCount <= 2) {
-                        previewWelfareTable.style.minWidth = '300px';
-                    } else if (columnCount <= 3) {
-                        previewWelfareTable.style.minWidth = '450px';
+                        previewWelfareTable.style.minWidth = '1000px';
                     } else {
-                        previewWelfareTable.style.minWidth = '400px';
+                        // Original configuration mapping
+                        const previewConfigs = {
+                            '晋级礼金': {
+                                header: ['VIP等级', '晋级礼金', '专属客服', '极速出款'],
+                                hasToggle: true,
+                                vip0Disabled: true
+                            },
+                            '生日礼金': {
+                                header: ['VIP等级', '生日礼金'],
+                                hasToggle: false,
+                                vip0Disabled: false
+                            },
+                            '专属红包': {
+                                header: ['VIP等级', '需求流水', '红包金额'],
+                                hasToggle: false,
+                                vip0Disabled: false,
+                                extraColumn: true
+                            },
+                            '每周红包': {
+                                header: ['VIP等级', '需求流水', '红包金额'],
+                                hasToggle: false,
+                                vip0Disabled: false,
+                                extraColumn: true
+                            },
+                            '每月红包': {
+                                header: ['VIP等级', '需求流水', '红包金额'],
+                                hasToggle: false,
+                                vip0Disabled: false,
+                                extraColumn: true
+                            }
+                        };
+                        const config = previewConfigs[templateName];
+                        if (config) {
+                            const thead = previewWelfareTable.querySelector('thead');
+                            const tbody = previewWelfareTable.querySelector('tbody');
+                            
+                            let headerHTML = '<tr>';
+                            config.header.forEach((h, i) => {
+                                if (i === 0) {
+                                    headerHTML += `<th rowspan="2" style="width: 80px;">${h}</th>`;
+                                } else if (h === '专属客服' || h === '极速出款') {
+                                    headerHTML += `<th rowspan="2" style="width: 80px;">${h}</th>`;
+                                } else if (config.extraColumn && (h === '需求流水' || h === '红包金额')) {
+                                    if (h === '需求流水') {
+                                        headerHTML += `<th colspan="2" style="border-bottom: 1px solid var(--border-color);">${templateName}</th>`;
+                                    }
+                                } else {
+                                    headerHTML += `<th rowspan="2">${h}</th>`;
+                                }
+                            });
+                            headerHTML += '</tr>';
+                            
+                            if (config.extraColumn) {
+                                headerHTML += '<tr><th>需求流水</th><th>红包金额</th></tr>';
+                            }
+                            
+                            thead.innerHTML = headerHTML;
+                            
+                            const rows = [];
+                            for (let i = 0; i <= 10; i++) {
+                                const isVip0 = i === 0;
+                                let cells = [`<td style="font-weight: 600; color: var(--text-main); padding: 14px 8px; text-align: center;">VIP${i}</td>`];
+                                
+                                if (config.extraColumn) {
+                                    cells.push(`<td style="padding: 14px 8px; text-align: center;">0</td>`);
+                                    cells.push(`<td style="padding: 14px 8px; text-align: center;">0</td>`);
+                                } else {
+                                    cells.push(`<td style="padding: 14px 8px; text-align: center;">${isVip0 && config.vip0Disabled ? '0' : '0'}</td>`);
+                                }
+                                
+                                if (config.hasToggle) {
+                                    cells.push(`<td style="padding: 14px 8px; text-align: center;">关闭</td>`);
+                                    cells.push(`<td style="padding: 14px 8px; text-align: center;">关闭</td>`);
+                                }
+                                
+                                rows.push(`<tr>${cells.join('')}</tr>`);
+                            }
+                            tbody.innerHTML = rows.join('');
+                            
+                            const columnCount = config.header.length;
+                            if (columnCount <= 2) {
+                                previewWelfareTable.style.minWidth = '300px';
+                            } else if (columnCount <= 3) {
+                                previewWelfareTable.style.minWidth = '450px';
+                            } else {
+                                previewWelfareTable.style.minWidth = '400px';
+                            }
+                        }
                     }
                 }
                 
-                // 更新福利项目配置总览表格 - 只显示当前选中的模板行
+                // 同步福利项目配置总览表格
                 if (previewConfigBody) {
                     const allRows = ['晋级礼金', '每周红包', '生日礼金', '专属红包', '每月红包'];
+                    
+                    // 1. 同步显示行
                     allRows.forEach(rowName => {
                         const row = document.getElementById(`previewRow_${rowName}`);
                         if (row) {
-                            row.style.display = (rowName === templateName) ? 'table-row' : 'none';
+                            row.style.display = (templateName === 'VIP活动' || rowName === templateName) ? 'table-row' : 'none';
+                        }
+                    });
+
+                    // 2. 同步发放方式 (审核方式)
+                    const auditMapping = [
+                        { name: '晋级礼金', radioName: 'audit_mode_0' },
+                        { name: '每周红包', radioName: 'audit_mode_1' },
+                        { name: '每月红包', radioName: 'audit_mode_2' },
+                        { name: '生日礼金', radioName: 'audit_mode_3' },
+                        { name: '专属红包', radioName: 'audit_mode_4' }
+                    ];
+
+                    auditMapping.forEach(item => {
+                        const row = document.getElementById(`previewRow_${item.name}`);
+                        if (!row) return;
+
+                        const radios = document.querySelectorAll(`input[name="${item.radioName}"]`);
+                        if (radios.length === 0) return;
+                        
+                        let selectedMode = 'manual';
+                        let amountValue = '';
+                        radios.forEach(radio => {
+                            if (radio.checked) selectedMode = radio.value;
+                            const td = radio.closest('td');
+                            if (td) {
+                                const input = td.querySelector('input[type="text"].day-input');
+                                if (input && input.value) amountValue = input.value;
+                            }
+                        });
+
+                        const issueMethodCell = row.cells[1];
+                        if (issueMethodCell) {
+                            if (selectedMode === 'manual') {
+                                issueMethodCell.innerHTML = `
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <label class="radio-label" style="font-size: 14px; color: var(--primary-color); cursor: default; pointer-events: none;">
+                                            <input type="radio" name="preview_audit_${item.radioName}" value="manual" checked disabled>
+                                            <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                            <span class="radio-text">人工审核</span>
+                                        </label>
+                                        <label class="radio-label" style="font-size: 14px; color: var(--text-main); cursor: default; pointer-events: none;">
+                                            <input type="radio" name="preview_audit_${item.radioName}" value="auto" disabled>
+                                            <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                            <span class="radio-text">自动审核</span>
+                                        </label>
+                                    </div>
+                                `;
+                            } else {
+                                issueMethodCell.innerHTML = `
+                                    <div style="display: flex; align-items: center; gap: 20px;">
+                                        <label class="radio-label" style="font-size: 14px; color: var(--text-main); cursor: default; pointer-events: none;">
+                                            <input type="radio" name="preview_audit_${item.radioName}" value="manual" disabled>
+                                            <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                            <span class="radio-text">人工审核</span>
+                                        </label>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <label class="radio-label" style="font-size: 14px; color: var(--primary-color); cursor: default; pointer-events: none;">
+                                                <input type="radio" name="preview_audit_${item.radioName}" value="auto" checked disabled>
+                                                <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
+                                                <span class="radio-text">自动审核</span>
+                                            </label>
+                                            <span style="font-weight: 600; color: #555; font-size: 14px; margin-left: 10px;">VND</span>
+                                            <span style="font-weight: 600; color: #333; font-size: 14px;">${amountValue || '0'}</span>
+                                        </div>
+                                    </div>
+                                `;
+                            }
+                        }
+                    });
+
+                    // 3. 同步注册时间 (仅生日礼金有效)
+                    const registerDaysEl = document.getElementById('unified_register_days');
+                    const registerDaysVal = registerDaysEl ? (registerDaysEl.value || '0') : '0';
+                    const birthdayRow = document.getElementById('previewRow_生日礼金');
+                    if (birthdayRow) {
+                        const regTimeCell = birthdayRow.cells[2];
+                        if (regTimeCell) {
+                            regTimeCell.innerHTML = `
+                                <div style="display: inline-flex; align-items: center; gap: 4px; background: #f0f2f5; padding: 4px 10px; border-radius: 4px; font-size: 13px; color: #666;">
+                                    <span style="font-weight: 600; color: #333;">${registerDaysVal}</span> 天
+                                </div>
+                            `;
+                        }
+                    }
+
+                    // 4. 同步领取方式 (自动/手动)
+                    const receiveMethodRadio = document.querySelector('input[name="unified_receive_method"]:checked');
+                    const receiveMethodVal = receiveMethodRadio ? receiveMethodRadio.value : 'manual';
+                    const receiveMethodText = receiveMethodVal === 'auto' ? '自动领取' : '手动领取';
+                    const receiveMethodColor = receiveMethodVal === 'auto' ? '#10b981' : '#ff5722';
+
+                    // 5. 同步有效天数
+                    const validDaysEl = document.getElementById('unified_valid_days');
+                    const validDaysVal = validDaysEl ? (validDaysEl.value || '-') : '-';
+
+                    // 6. 同步提现稽核流水比例
+                    const withdrawalRatioEl = document.getElementById('unified_withdrawal_ratio');
+                    const withdrawalRatioVal = withdrawalRatioEl ? (withdrawalRatioEl.value || '0') : '0';
+
+                    allRows.forEach(rowName => {
+                        const row = document.getElementById(`previewRow_${rowName}`);
+                        if (!row) return;
+
+                        // Col 3: 领取方式
+                        const cellReceive = row.cells[3];
+                        if (cellReceive) {
+                            cellReceive.innerHTML = `
+                                <span style="display: inline-flex; align-items: center; gap: 8px; color: ${receiveMethodColor}; font-weight: 600; font-size: 13px;">
+                                    <span style="width: 8px; height: 8px; background-color: ${receiveMethodColor}; border-radius: 50%;"></span>${receiveMethodText}
+                                </span>
+                            `;
+                        }
+
+                        // Col 4: 有效天数
+                        const cellValidDays = row.cells[4];
+                        if (cellValidDays) {
+                            if (validDaysVal !== '-') {
+                                cellValidDays.innerHTML = `
+                                    <div style="display: inline-flex; align-items: center; gap: 4px; background: #f0f2f5; padding: 4px 10px; border-radius: 4px; font-size: 13px; color: #666;">
+                                        <span style="font-weight: 600; color: #333;">${validDaysVal}</span> 天
+                                    </div>
+                                `;
+                            } else {
+                                cellValidDays.innerHTML = '<span style="color: #ccc;">-</span>';
+                            }
+                        }
+
+                        // Col 5: 提现稽核流水比例
+                        const cellWithdrawal = row.cells[5];
+                        if (cellWithdrawal) {
+                            cellWithdrawal.innerHTML = `${withdrawalRatioVal}%`;
                         }
                     });
                 }
                 
                 // 更新注册时间表头显示
                 if (previewRegTimeHeader) {
-                    previewRegTimeHeader.style.display = (templateName === '生日礼金') ? 'table-cell' : 'none';
+                    previewRegTimeHeader.style.display = (templateName === '生日礼金' || templateName === 'VIP活动') ? 'table-cell' : 'none';
                 }
             }
             
@@ -1951,7 +2171,46 @@
         initReceiveMethodToggle();
         initAutoAuditToggle();
         initTemplateTypeToggle();
-    </script>
+    
+        // 放到最外层的 Tooltip 逻辑
+        function initGlobalTooltip() {
+            const icons = document.querySelectorAll('.info-icon');
+            let tooltipEl = null;
+
+            icons.forEach(icon => {
+                icon.addEventListener('mouseenter', (e) => {
+                    const tipText = icon.getAttribute('data-tip');
+                    if (!tipText) return;
+                    
+                    if (!tooltipEl) {
+                        tooltipEl = document.createElement('div');
+                        tooltipEl.className = 'global-tooltip';
+                        document.body.appendChild(tooltipEl);
+                    }
+                    
+                    tooltipEl.textContent = tipText;
+                    tooltipEl.style.display = 'block';
+                    
+                    const rect = icon.getBoundingClientRect();
+                    tooltipEl.style.left = (rect.left + rect.width / 2) + 'px';
+                    tooltipEl.style.top = (rect.top - 8) + 'px';
+                });
+                
+                icon.addEventListener('mouseleave', () => {
+                    if (tooltipEl) {
+                        tooltipEl.style.display = 'none';
+                    }
+                });
+                
+                // If the container scrolls, we might want to hide it
+                document.querySelector('.main-container').addEventListener('scroll', () => {
+                    if (tooltipEl) tooltipEl.style.display = 'none';
+                });
+            });
+        }
+        initGlobalTooltip();
+
+</script>
 </body>
 
 </html>
