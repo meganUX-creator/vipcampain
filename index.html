@@ -1572,8 +1572,33 @@
                         </div>
                     </div>
 
+                    <!-- Section 6 -->
+                    <div class="preview-section">
+                        <div class="preview-header">
+                            <div class="preview-step-icon">6</div>
+                            <div class="preview-step-title">领取条件</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-item"><span class="preview-label">领取方式：</span><span class="preview-value" id="preview_receive_method">自动领取</span></div>
+                            <div class="preview-item"><span class="preview-label">手机验证：</span><span class="preview-value" id="preview_phone_verified">否</span></div>
+                            <div class="preview-item"><span class="preview-label">有效天数：</span><span class="preview-value" id="preview_valid_days">1天</span></div>
+                            <div class="preview-item"><span class="preview-label">设备限制：</span><span class="preview-value" id="preview_device">无限制领奖设备</span></div>
+                            <div class="preview-item"><span class="preview-label">绑定提款卡：</span><span class="preview-value">-</span></div>
+                        </div>
+                    </div>
 
-
+                    <!-- Section 7 -->
+                    <div class="preview-section">
+                        <div class="preview-header">
+                            <div class="preview-step-icon">7</div>
+                            <div class="preview-step-title">提款条件</div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="preview-item"><span class="preview-label">稽核不通过手续费比例：</span><span class="preview-value">100%</span></div>
+                            <div class="preview-item"><span class="preview-label">提现稽核流水比例：</span><span class="preview-value" id="preview_withdrawal_ratio">-</span></div>
+                            <div class="preview-item"><span class="preview-label">稽核游戏条件：</span><span class="preview-value">未设置</span></div>
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -2119,6 +2144,37 @@
                 // 更新注册时间表头显示
                 if (previewRegTimeHeader) {
                     previewRegTimeHeader.style.display = (templateName === '生日礼金' || templateName === 'VIP活动') ? 'table-cell' : 'none';
+                }
+
+                // 同步第 6 步 (领取条件) 和 第 7 步 (提款条件) 的预览信息
+                const previewReceiveMethod = document.getElementById('preview_receive_method');
+                if (previewReceiveMethod) {
+                    const radio = document.querySelector('input[name="unified_receive_method"]:checked');
+                    previewReceiveMethod.textContent = radio ? (radio.value === 'auto' ? '自动领取' : '手动领取') : '手动领取';
+                }
+
+                const previewPhoneVerified = document.getElementById('preview_phone_verified');
+                if (previewPhoneVerified) {
+                    const radio = document.querySelector('input[name="unified_phone_verified"]:checked');
+                    previewPhoneVerified.textContent = radio ? (radio.value === 'yes' ? '是' : '否') : '否';
+                }
+
+                const previewValidDays = document.getElementById('preview_valid_days');
+                if (previewValidDays) {
+                    const input = document.getElementById('unified_valid_days');
+                    previewValidDays.textContent = input && input.value ? (input.value + '天') : '-';
+                }
+
+                const previewDevice = document.getElementById('preview_device');
+                if (previewDevice) {
+                    const radio = document.querySelector('input[name="unified_device"]:checked');
+                    previewDevice.textContent = radio ? (radio.value === 'unlimited' ? '无限制领奖设备' : 'APP') : '无限制领奖设备';
+                }
+
+                const previewWithdrawalRatio = document.getElementById('preview_withdrawal_ratio');
+                if (previewWithdrawalRatio) {
+                    const input = document.getElementById('unified_withdrawal_ratio');
+                    previewWithdrawalRatio.textContent = input && input.value ? (input.value + '%') : '-';
                 }
             }
             
