@@ -1438,12 +1438,8 @@
                                 <table id="previewConfigTable" class="data-table" style="width: 100%; border: 1px solid #eef2f7; border-collapse: separate; border-spacing: 0; border-radius: 8px; overflow: hidden;">
                                     <thead style="background-color: #f8faff;">
                                         <tr id="previewConfigHeader">
-                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: left; border-bottom: 1px solid #eef2f7;">福利项目</th>
-                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: left; border-bottom: 1px solid #eef2f7;">发放方式</th>
-                                            <th id="previewRegTimeHeader" style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: center; border-bottom: 1px solid #eef2f7;">注册时间</th>
-                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: left; border-bottom: 1px solid #eef2f7;">领取方式</th>
-                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: center; border-bottom: 1px solid #eef2f7;">有效天数</th>
-                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: right; border-bottom: 1px solid #eef2f7;">提现稽核流水比例</th>
+                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: left; border-bottom: 1px solid #eef2f7; width: 30%;">福利项目</th>
+                                            <th style="padding: 16px 20px; color: #333; font-weight: 600; font-size: 14px; text-align: left; border-bottom: 1px solid #eef2f7;">审核方式</th>
                                         </tr>
                                     </thead>
                                     <tbody id="previewConfigBody" style="background: #fff;">
@@ -1451,105 +1447,46 @@
                                         <tr id="previewRow_晋级礼金">
                                             <td style="padding: 20px; font-weight: 600; color: #333; border-bottom: 1px solid #f6f8fb;">晋级礼金</td>
                                             <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                    <span style="display: inline-flex; align-items: center; gap: 8px; color: #4b89ff; font-weight: 600; font-size: 13px;">
-                                                        <span style="width: 8px; height: 8px; background-color: #4b89ff; border-radius: 50%;"></span>审核发放
-                                                    </span>
-                                                    <span style="font-size: 11px; color: #999;">金额≧VND 100 需手动审核</span>
+                                                <div style="text-align: left; line-height: 1.6;">
+                                                    <div>审核方式：人工审核</div>
                                                 </div>
                                             </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                    <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动领取
-                                                </span>
-                                            </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; color: #ff5722; font-weight: 700; text-align: right; font-size: 14px; border-bottom: 1px solid #f6f8fb;">100%</td>
                                         </tr>
                                         <!-- Row 2: 每周红包 -->
                                         <tr id="previewRow_每周红包">
                                             <td style="padding: 20px; font-weight: 600; color: #333; border-bottom: 1px solid #f6f8fb;">每周红包</td>
                                             <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                    <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                        <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动发放
-                                                    </span>
-                                                    <span style="font-size: 11px; color: #999;">无需人工审核</span>
+                                                <div style="text-align: left; line-height: 1.6;">
+                                                    <div>审核方式：人工审核</div>
                                                 </div>
                                             </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                    <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动领取
-                                                </span>
-                                            </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; color: #ff5722; font-weight: 700; text-align: right; font-size: 14px; border-bottom: 1px solid #f6f8fb;">100%</td>
                                         </tr>
                                         <!-- Row 3: 生日礼金 -->
                                         <tr id="previewRow_生日礼金">
                                             <td style="padding: 20px; font-weight: 600; color: #333; border-bottom: 1px solid #f6f8fb;">生日礼金</td>
                                             <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                    <span style="display: inline-flex; align-items: center; gap: 8px; color: #4b89ff; font-weight: 600; font-size: 13px;">
-                                                        <span style="width: 8px; height: 8px; background-color: #4b89ff; border-radius: 50%;"></span>审核发放
-                                                    </span>
-                                                    <span style="font-size: 11px; color: #999;">填0全都要手动审核</span>
+                                                <div style="text-align: left; line-height: 1.6;">
+                                                    <div>审核方式：人工审核</div>
                                                 </div>
                                             </td>
-                                            <td style="padding: 20px; text-align: center; border-bottom: 1px solid #f6f8fb;">
-                                                <div style="display: inline-flex; align-items: center; gap: 4px; background: #f0f2f5; padding: 4px 10px; border-radius: 4px; font-size: 13px; color: #666;">
-                                                    <span style="font-weight: 600; color: #333;">0</span> 日
-                                                </div>
-                                            </td>
-                                            <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                    <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动领取
-                                                </span>
-                                            </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; color: #ff5722; font-weight: 700; text-align: right; font-size: 14px; border-bottom: 1px solid #f6f8fb;">100%</td>
                                         </tr>
                                         <!-- Row 4: 专属红包 -->
                                         <tr id="previewRow_专属红包">
                                             <td style="padding: 20px; font-weight: 600; color: #333; border-bottom: 1px solid #f6f8fb;">专属红包</td>
                                             <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                    <span style="display: inline-flex; align-items: center; gap: 8px; color: #4b89ff; font-weight: 600; font-size: 13px;">
-                                                        <span style="width: 8px; height: 8px; background-color: #4b89ff; border-radius: 50%;"></span>审核发放
-                                                    </span>
-                                                    <span style="font-size: 11px; color: #999;">金额≧VND 500 需手动审核</span>
+                                                <div style="text-align: left; line-height: 1.6;">
+                                                    <div>审核方式：人工审核</div>
                                                 </div>
                                             </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; border-bottom: 1px solid #f6f8fb;">
-                                                <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                    <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动领取
-                                                </span>
-                                            </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: 1px solid #f6f8fb;">-</td>
-                                            <td style="padding: 20px; color: #ff5722; font-weight: 700; text-align: right; font-size: 14px; border-bottom: 1px solid #f6f8fb;">100%</td>
                                         </tr>
                                          <!-- Row 5: 每月红包 -->
                                          <tr id="previewRow_每月红包">
                                             <td style="padding: 20px; font-weight: 600; color: #333; border-bottom: none;">每月红包</td>
                                             <td style="padding: 20px; border-bottom: none;">
-                                                <div style="display: flex; flex-direction: column; gap: 4px;">
-                                                    <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                        <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动发放
-                                                    </span>
-                                                    <span style="font-size: 11px; color: #999;">无需人工审核</span>
+                                                <div style="text-align: left; line-height: 1.6;">
+                                                    <div>审核方式：人工审核</div>
                                                 </div>
                                             </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: none;">-</td>
-                                            <td style="padding: 20px; border-bottom: none;">
-                                                <span style="display: inline-flex; align-items: center; gap: 8px; color: #10b981; font-weight: 600; font-size: 13px;">
-                                                    <span style="width: 8px; height: 8px; background-color: #10b981; border-radius: 50%;"></span>自动领取
-                                                </span>
-                                            </td>
-                                            <td style="padding: 20px; color: #ccc; text-align: center; border-bottom: none;">-</td>
-                                            <td style="padding: 20px; color: #ff5722; font-weight: 700; text-align: right; font-size: 14px; border-bottom: none;">100%</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -2007,7 +1944,7 @@
                         }
                     });
 
-                    // 2. 同步发放方式 (审核方式)
+                                        // 2. 同步发放方式 (审核方式)
                     const auditMapping = [
                         { name: '晋级礼金', radioName: 'audit_mode_0' },
                         { name: '每周红包', radioName: 'audit_mode_1' },
@@ -2038,111 +1975,23 @@
                         if (issueMethodCell) {
                             if (selectedMode === 'manual') {
                                 issueMethodCell.innerHTML = `
-                                    <div style="display: flex; align-items: center; gap: 20px;">
-                                        <label class="radio-label" style="font-size: 14px; color: var(--primary-color); cursor: default; pointer-events: none;">
-                                            <input type="radio" name="preview_audit_${item.radioName}" value="manual" checked disabled>
-                                            <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
-                                            <span class="radio-text">人工审核</span>
-                                        </label>
-                                        <label class="radio-label" style="font-size: 14px; color: var(--text-main); cursor: default; pointer-events: none;">
-                                            <input type="radio" name="preview_audit_${item.radioName}" value="auto" disabled>
-                                            <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
-                                            <span class="radio-text">自动审核</span>
-                                        </label>
+                                    <div style="text-align: left; line-height: 1.6; font-size: 13px;">
+                                        <div>审核方式：人工审核</div>
                                     </div>
                                 `;
                             } else {
                                 issueMethodCell.innerHTML = `
-                                    <div style="display: flex; align-items: center; gap: 20px;">
-                                        <label class="radio-label" style="font-size: 14px; color: var(--text-main); cursor: default; pointer-events: none;">
-                                            <input type="radio" name="preview_audit_${item.radioName}" value="manual" disabled>
-                                            <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
-                                            <span class="radio-text">人工审核</span>
-                                        </label>
-                                        <div style="display: flex; align-items: center; gap: 10px;">
-                                            <label class="radio-label" style="font-size: 14px; color: var(--primary-color); cursor: default; pointer-events: none;">
-                                                <input type="radio" name="preview_audit_${item.radioName}" value="auto" checked disabled>
-                                                <span class="radio-custom" style="width: 16px; height: 16px; margin-right: 6px;"></span>
-                                                <span class="radio-text">自动审核</span>
-                                            </label>
-                                            <span style="font-weight: 600; color: #555; font-size: 14px; margin-left: 10px;">VND</span>
-                                            <span style="font-weight: 600; color: #333; font-size: 14px;">${amountValue || '0'}</span>
-                                        </div>
+                                    <div style="text-align: left; line-height: 1.6; font-size: 13px;">
+                                        <div>审核方式：自动审核</div>
+                                        <div style="color: #666; margin-top: 4px;">VND：≧${amountValue || '0'}</div>
                                     </div>
                                 `;
                             }
-                        }
-                    });
-
-                    // 3. 同步注册时间 (仅生日礼金有效)
-                    const registerDaysEl = document.getElementById('unified_register_days');
-                    const registerDaysVal = registerDaysEl ? (registerDaysEl.value || '0') : '0';
-                    const birthdayRow = document.getElementById('previewRow_生日礼金');
-                    if (birthdayRow) {
-                        const regTimeCell = birthdayRow.cells[2];
-                        if (regTimeCell) {
-                            regTimeCell.innerHTML = `
-                                <div style="display: inline-flex; align-items: center; gap: 4px; background: #f0f2f5; padding: 4px 10px; border-radius: 4px; font-size: 13px; color: #666;">
-                                    <span style="font-weight: 600; color: #333;">${registerDaysVal}</span> 天
-                                </div>
-                            `;
-                        }
-                    }
-
-                    // 4. 同步领取方式 (自动/手动)
-                    const receiveMethodRadio = document.querySelector('input[name="unified_receive_method"]:checked');
-                    const receiveMethodVal = receiveMethodRadio ? receiveMethodRadio.value : 'manual';
-                    const receiveMethodText = receiveMethodVal === 'auto' ? '自动领取' : '手动领取';
-                    const receiveMethodColor = receiveMethodVal === 'auto' ? '#10b981' : '#ff5722';
-
-                    // 5. 同步有效天数
-                    const validDaysEl = document.getElementById('unified_valid_days');
-                    const validDaysVal = validDaysEl ? (validDaysEl.value || '-') : '-';
-
-                    // 6. 同步提现稽核流水比例
-                    const withdrawalRatioEl = document.getElementById('unified_withdrawal_ratio');
-                    const withdrawalRatioVal = withdrawalRatioEl ? (withdrawalRatioEl.value || '0') : '0';
-
-                    allRows.forEach(rowName => {
-                        const row = document.getElementById(`previewRow_${rowName}`);
-                        if (!row) return;
-
-                        // Col 3: 领取方式
-                        const cellReceive = row.cells[3];
-                        if (cellReceive) {
-                            cellReceive.innerHTML = `
-                                <span style="display: inline-flex; align-items: center; gap: 8px; color: ${receiveMethodColor}; font-weight: 600; font-size: 13px;">
-                                    <span style="width: 8px; height: 8px; background-color: ${receiveMethodColor}; border-radius: 50%;"></span>${receiveMethodText}
-                                </span>
-                            `;
-                        }
-
-                        // Col 4: 有效天数
-                        const cellValidDays = row.cells[4];
-                        if (cellValidDays) {
-                            if (validDaysVal !== '-') {
-                                cellValidDays.innerHTML = `
-                                    <div style="display: inline-flex; align-items: center; gap: 4px; background: #f0f2f5; padding: 4px 10px; border-radius: 4px; font-size: 13px; color: #666;">
-                                        <span style="font-weight: 600; color: #333;">${validDaysVal}</span> 天
-                                    </div>
-                                `;
-                            } else {
-                                cellValidDays.innerHTML = '<span style="color: #ccc;">-</span>';
-                            }
-                        }
-
-                        // Col 5: 提现稽核流水比例
-                        const cellWithdrawal = row.cells[5];
-                        if (cellWithdrawal) {
-                            cellWithdrawal.innerHTML = `${withdrawalRatioVal}%`;
                         }
                     });
                 }
                 
-                // 更新注册时间表头显示
-                if (previewRegTimeHeader) {
-                    previewRegTimeHeader.style.display = (templateName === '生日礼金' || templateName === 'VIP活动') ? 'table-cell' : 'none';
-                }
+
 
                 // 同步第 6 步 (领取条件) 和 第 7 步 (提款条件) 的预览信息
                 const previewReceiveMethod = document.getElementById('preview_receive_method');
