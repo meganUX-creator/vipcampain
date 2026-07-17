@@ -1583,7 +1583,7 @@
                             <div class="preview-item"><span class="preview-label">手机验证：</span><span class="preview-value" id="preview_phone_verified">否</span></div>
                             <div class="preview-item"><span class="preview-label">有效天数：</span><span class="preview-value" id="preview_valid_days">1天</span></div>
                             <div class="preview-item"><span class="preview-label">设备限制：</span><span class="preview-value" id="preview_device">无限制领奖设备</span></div>
-                            <div class="preview-item"><span class="preview-label">绑定提款卡：</span><span class="preview-value">-</span></div>
+                            <div class="preview-item"><span class="preview-label">注册天数：</span><span class="preview-value" id="preview_register_days">-</span></div>
                         </div>
                     </div>
 
@@ -1594,9 +1594,7 @@
                             <div class="preview-step-title">提款条件</div>
                         </div>
                         <div class="preview-content">
-                            <div class="preview-item"><span class="preview-label">稽核不通过手续费比例：</span><span class="preview-value">100%</span></div>
                             <div class="preview-item"><span class="preview-label">提现稽核流水比例：</span><span class="preview-value" id="preview_withdrawal_ratio">-</span></div>
-                            <div class="preview-item"><span class="preview-label">稽核游戏条件：</span><span class="preview-value">未设置</span></div>
                         </div>
                     </div>
 
@@ -2175,6 +2173,12 @@
                 if (previewWithdrawalRatio) {
                     const input = document.getElementById('unified_withdrawal_ratio');
                     previewWithdrawalRatio.textContent = input && input.value ? (input.value + '%') : '-';
+                }
+
+                const previewRegisterDays = document.getElementById('preview_register_days');
+                if (previewRegisterDays) {
+                    const input = document.getElementById('unified_register_days');
+                    previewRegisterDays.textContent = input && input.value ? (input.value + '天') : '-';
                 }
             }
             
